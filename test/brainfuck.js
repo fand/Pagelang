@@ -29,9 +29,29 @@ describe('Brainfuck', function(){
     });
   });
 
-  it('should run brainfuck code', function (done) {
+  it('should return same outputs in eval and willEval', function (done) {
     var code = '++++++++[>++++++++<-]>+.+.+.';
     var answer = 'ABC';
+    pager.eval(code, function (err, data1) {
+      pager.willEval(code).then(function (data2) {
+        assert.equal(data1, data2);
+        done();
+      });
+    });
+  });
+
+  it('should run HelloWorld in brainfuck', function (done) {
+    var code = '+++++++++[>++++++++<-]>.<+++++[>+++++<-]>++++.+++++++..+++.[>+>+<<-]++++[>------<-]>.>.+++.------.--------.[-]++++++[>+++++<-]>+++..';
+    var answer = 'HelloWorld!!';
+    pager.willEval(code).then(function (data) {
+      assert.equal(data, answer);
+      done();
+    });
+  });
+
+  it('should run abc... in brainfuck', function (done) {
+    var code = '+++++++++++++++++++++++++++++++++.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.';
+    var answer = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
     pager.eval(code, function (err, data) {
       assert.equal(data, answer);
       done();

@@ -10,10 +10,18 @@
     "test": "test"
   },
   "dependencies": {
-    "mocha": "^1.20.1",
-    "node-mysql": "^0.3.7"
+    "event-stream": "^3.1.5",
+    "mysql": "^2.3.2",
+    "q": "^1.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "^1.20.1",
+    "chai": "^1.9.1",
+    "gulp": "^3.8.5",
+    "gulp-istanbul": "^0.2.0",
+    "gulp-mocha": "^0.4.1",
+    "gulp-plumber": "^0.6.3"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
