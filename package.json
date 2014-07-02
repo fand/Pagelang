@@ -1,0 +1,25 @@
+{
+  "name": "Pager",
+  "version": "0.0.0",
+  "description": "brainfuck like pager language",
+  "main": "lib/pager.js",
+  "bin": {
+    "pager": "bin/pager.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "mocha": "^1.20.1",
+    "node-mysql": "^0.3.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "brainfuck"
+  ],
+  "author": "Jun Fan <fand@kde.cs.tsukuba.ac.jp> (http://gmork.in/)",
+  "license": "MIT"
+}

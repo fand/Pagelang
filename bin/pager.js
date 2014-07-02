@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 'use strict';
-var db = require('./db');
+var Pager = require('../lib/pager');
 var options = {};
 
 
@@ -31,3 +31,6 @@ command
       options.code = val;
     })
   .parse(process.argv);
+
+
+var pager = new Pager();
