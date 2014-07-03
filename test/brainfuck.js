@@ -91,7 +91,7 @@ describe('Brainfuck', function(){
       });
   });
 
-  it('should clear the properties by Pager#clear', function (done) {
+  it('should clear the properties by Brainfuck#clear', function (done) {
     var code = '++++++++[>++++++++<-]>+.+.+.';
     bf.willEval(code).then(function () {
       assert.equal(bf.pointer, 1);
