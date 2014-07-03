@@ -32,22 +32,21 @@ describe('Pager', function(){
       '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~'
     ];
 
-    var callcount = 0;
-    var callback = function () {
-      if (++callcount === codes.length) { done(); }
-    };
-
     var bf = new Brainfuck();
-    for (var i = 0; i < codes.length; i++) {
-      pager.eval(codes[i], function (err, data1) {
+    var test = function (code) {
+      var d = Q.defer();
+      pager.eval(code, function (err, data1) {
         if (err) { throw err; }
-        bf.eval(codes[i], function (err, data2) {
+        bf.eval(code, function (err, data2) {
           if (err) { throw err; }
           assert.equal(data1, data2);
-          callback();
+          d.resolve();
         });
       });
-    }
+      return d.promise;
+    };
+
+    test(0).then(test(1)).then(test(2)).then(done);
   });
 
   it('should return same outputs in eval and willEval', function (done) {
