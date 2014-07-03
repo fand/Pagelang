@@ -28,11 +28,11 @@ describe('Brainfuck', function(){
     });
   });
 
-  it('should return same outputs in eval and willEval', function (done) {
+  it('should return same outputs in callback and promise', function (done) {
     var code = '++++++++[>++++++++<-]>+.+.+.';
     var answer = 'ABC';
     bf.eval(code, function (err, data1) {
-      bf.willEval(code).then(function (data2) {
+      bf.eval(code).then(function (data2) {
         assert.equal(data1, data2);
         done();
       });
@@ -42,7 +42,7 @@ describe('Brainfuck', function(){
   it('should run HelloWorld in brainfuck', function (done) {
     var code = '+++++++++[>++++++++<-]>.<+++++[>+++++<-]>++++.+++++++..+++.[>+>+<<-]++++[>------<-]>.>.+++.------.--------.[-]++++++[>+++++<-]>+++..';
     var answer = 'HelloWorld!!';
-    bf.willEval(code).then(function (data) {
+    bf.eval(code).then(function (data) {
       assert.equal(data, answer);
       done();
     });
@@ -58,11 +58,11 @@ describe('Brainfuck', function(){
   });
 
   it('should move the pointer right', function (done) {
-    bf.willEval('>')
+    bf.eval('>')
       .then(function () {
         assert.equal(bf.pointer, 1);
       }).then(function () {
-        bf.willEval('>>>');
+        bf.eval('>>>');
       }).then(function () {
         assert.equal(bf.pointer, 3);
       }).then(function () {
@@ -71,20 +71,20 @@ describe('Brainfuck', function(){
   });
 
   it('should move the pointer left', function (done) {
-    bf.willEval('><')
+    bf.eval('><')
       .then(function(){
         assert.equal(bf.pointer, 0);
       }).then(function () {
-        bf.willEval('>><');
+        bf.eval('>><');
       }).then(function () {
         assert.equal(bf.pointer, 1);
       }).then(function () {
-        bf.willEval('>>><<<');
+        bf.eval('>>><<<');
       }).then(function () {
         assert.equal(bf.pointer, 0);
       }).then(function () {
         assert.throws(function () {
-          bf.willEval('<');
+          bf.eval('<');
         });
       }).then(function () {
         done();
@@ -93,7 +93,7 @@ describe('Brainfuck', function(){
 
   it('should clear the properties by Brainfuck#clear', function (done) {
     var code = '++++++++[>++++++++<-]>+.+.+.';
-    bf.willEval(code).then(function () {
+    bf.eval(code).then(function () {
       assert.equal(bf.pointer, 1);
       bf.clear();
       assert.equal(bf.pointer, 0);
@@ -104,7 +104,7 @@ describe('Brainfuck', function(){
   it('should process inputs correctly', function (done) {
     var code = ',>,>,<<.>.>.';
     bf.input('abc');
-    bf.willEval(code).then(function (data) {
+    bf.eval(code).then(function (data) {
       assert.equal(data, 'abc');
       done();
     });

@@ -46,24 +46,26 @@ describe('Pager', function(){
       return d.promise;
     };
 
-    test(0).then(test(1)).then(test(2)).then(done);
+    test(codes[0])
+      .then(test.bind(null, codes[1]))
+      .then(test.bind(null, codes[2]))
+      .then(done);
   });
 
-  it('should return same outputs in eval and willEval', function (done) {
+  it('should return same outputs in callback and promise', function (done) {
     var code = '++++++++[>++++++++<-]>+.+.+.';
     var answer = 'ABC';
     pager.eval(code, function (err, data1) {
-      pager.willEval(code).then(function (data2) {
+      pager.eval(code).then(function (data2) {
         assert.equal(data1, data2);
         done();
       });
     });
   });
 
-
   it('should clear the properties by Pager#clear', function (done) {
     var code = '}}}))))';
-    pager.willEval(code).then(function () {
+    pager.eval(code).then(function () {
       assert.equal(pager.offset, 3);
       assert.equal(pager.limit, 4);
       pager.clear();
