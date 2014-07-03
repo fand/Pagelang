@@ -101,4 +101,13 @@ describe('Brainfuck', function(){
     });
   });
 
+  it('should process inputs correctly', function (done) {
+    var code = ',>,>,<<.>.>.';
+    bf.input('abc');
+    bf.willEval(code).then(function (data) {
+      assert.equal(data, 'abc');
+      done();
+    });
+  });
+
 });
