@@ -11,7 +11,7 @@ describe('DB', function(){
 
   var db;
 
-  before(function (done) {
+  beforeEach(function (done) {
     db = new DB({
       database: 'pager_test'
     });
@@ -30,7 +30,7 @@ describe('DB', function(){
       .done(done);
   });
 
-  after(function (done) {
+  afterEach(function (done) {
     db.end().then(done);
   });
 
@@ -79,4 +79,48 @@ describe('DB', function(){
       .done(done);
   });
 
+  it('update the records by field condition', function (done) {
+    db.query('UPDATE user set age = 10')
+      .then(function (result) {
+        assert.equal(result.affectedRows, 10);
+      })
+      .then(db.query.bind(db, 'SELECT count from (SELECT count(*) as count, age from user group by age) as u where age = 10'))
+      .then(function (rows) {
+        assert.equal(rows[0].count, 10);
+      })
+      .done(done);
+  });
+
+  it('update the records by range', function (done) {
+    db.query('UPDATE user t1 JOIN (SELECT * from user limit 3, 4) t2 ON t1.id = t2.id set t1.age = 20')
+      .then(function (result) {
+        assert.equal(result.affectedRows, 4, 'the number of affectedRows reported is correct');
+      })
+      .then(db.query.bind(db, 'SELECT count from (SELECT count(*) as count, age from user group by age) as u where age = 20'))
+      .then(function (rows) {
+        assert.equal(rows[0].count, 4, 'the number of updated rows is correct');
+      })
+      .then(db.query.bind(
+        db,
+        'select count from (select COALESCE(count(*), 0) as count, age from (select * from user limit 0, 3) as t2 group by age) as t1 where age = 20'
+      ))
+      .then(function (rows) {
+        assert.deepEqual(rows, []);
+      })
+      .then(db.query.bind(
+        db,
+        'select count from (select COALESCE(count(*), 0) as count, age from (select * from user limit 3, 4) as t2 group by age) as t1 where age = 20'
+      ))
+      .then(function (rows) {
+        assert.equal(rows[0].count, 4);
+      })
+      .then(db.query.bind(
+        db,
+        'select count from (select COALESCE(count(*), 0) as count, age from (select * from user limit 7, 3) as t2 group by age) as t1 where age = 20'
+      ))
+      .then(function (rows) {
+        assert.deepEqual(rows, []);
+      })
+      .done(done);
+  });
 });
