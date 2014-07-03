@@ -4,16 +4,15 @@ var mocha = require('mocha');
 var assert = require('chai').assert;
 var Q = require('q');
 
-var Pager = require('../lib/pager');
+var Brainfuck = require('../lib/brainfuck');
 
 
 describe('Brainfuck', function(){
 
-  var pager;
-  var tmp;
+  var bf;
 
   before(function () {
-    pager = new Pager();
+    bf = new Brainfuck();
   });
 
   afterEach(function () {
@@ -23,7 +22,7 @@ describe('Brainfuck', function(){
   it('should run brainfuck code', function (done) {
     var code = '++++++++[>++++++++<-]>+.+.+.';
     var answer = 'ABC';
-    pager.eval(code, function (err, data) {
+    bf.eval(code, function (err, data) {
       assert.equal(data, answer);
       done();
     });
@@ -32,8 +31,8 @@ describe('Brainfuck', function(){
   it('should return same outputs in eval and willEval', function (done) {
     var code = '++++++++[>++++++++<-]>+.+.+.';
     var answer = 'ABC';
-    pager.eval(code, function (err, data1) {
-      pager.willEval(code).then(function (data2) {
+    bf.eval(code, function (err, data1) {
+      bf.willEval(code).then(function (data2) {
         assert.equal(data1, data2);
         done();
       });
@@ -43,7 +42,7 @@ describe('Brainfuck', function(){
   it('should run HelloWorld in brainfuck', function (done) {
     var code = '+++++++++[>++++++++<-]>.<+++++[>+++++<-]>++++.+++++++..+++.[>+>+<<-]++++[>------<-]>.>.+++.------.--------.[-]++++++[>+++++<-]>+++..';
     var answer = 'HelloWorld!!';
-    pager.willEval(code).then(function (data) {
+    bf.willEval(code).then(function (data) {
       assert.equal(data, answer);
       done();
     });
@@ -52,40 +51,40 @@ describe('Brainfuck', function(){
   it('should run abc... in brainfuck', function (done) {
     var code = '+++++++++++++++++++++++++++++++++.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.';
     var answer = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
-    pager.eval(code, function (err, data) {
+    bf.eval(code, function (err, data) {
       assert.equal(data, answer);
       done();
     });
   });
 
   it('should move the pointer right', function (done) {
-    pager.willEval('>')
+    bf.willEval('>')
       .then(function () {
-        assert.equal(pager.pointer, 1);
+        assert.equal(bf.pointer, 1);
       }).then(function () {
-        pager.willEval('>>>');
+        bf.willEval('>>>');
       }).then(function () {
-        assert.equal(pager.pointer, 3);
+        assert.equal(bf.pointer, 3);
       }).then(function () {
         done();
       });
   });
 
   it('should move the pointer left', function (done) {
-    pager.willEval('><')
+    bf.willEval('><')
       .then(function(){
-        assert.equal(pager.pointer, 0);
+        assert.equal(bf.pointer, 0);
       }).then(function () {
-        pager.willEval('>><');
+        bf.willEval('>><');
       }).then(function () {
-        assert.equal(pager.pointer, 1);
+        assert.equal(bf.pointer, 1);
       }).then(function () {
-        pager.willEval('>>><<<');
+        bf.willEval('>>><<<');
       }).then(function () {
-        assert.equal(pager.pointer, 0);
+        assert.equal(bf.pointer, 0);
       }).then(function () {
         assert.throws(function () {
-          pager.willEval('<');
+          bf.willEval('<');
         });
       }).then(function () {
         done();
@@ -94,10 +93,10 @@ describe('Brainfuck', function(){
 
   it('should clear the properties by Pager#clear', function (done) {
     var code = '++++++++[>++++++++<-]>+.+.+.';
-    pager.willEval(code).then(function () {
-      assert.equal(pager.pointer, 1);
-      pager.clear();
-      assert.equal(pager.pointer, 0);
+    bf.willEval(code).then(function () {
+      assert.equal(bf.pointer, 1);
+      bf.clear();
+      assert.equal(bf.pointer, 0);
       done();
     });
   });
