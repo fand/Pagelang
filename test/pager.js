@@ -84,4 +84,17 @@ describe('Pager', function(){
     });
   });
 
+  it('should update correct range', function (done) {
+    var code = '}}}))))@age:100@v';
+    var rows = null;
+    pager.eval(code).then(function (result) {
+      rows = result.rows[0];
+    }).then(function () {
+      assert.equal(rows[0].age, 100);
+      assert.equal(rows[1].age, 100);
+      assert.equal(rows[2].age, 100);
+      assert.equal(rows[3].age, 100);
+    }).done(done);
+  });
+
 });
