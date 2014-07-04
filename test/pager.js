@@ -17,10 +17,10 @@ describe('Pager', function(){
     pager.setTable('user');
   });
 
-  afterEach(function () {
+  after(function () {
 
   });
-/*
+
   it('should give same outputs as Brainfuck for brainfuck codes', function (done) {
     var codes = [
       '++++++++[>++++++++<-]>+.+.+.',
@@ -75,7 +75,7 @@ describe('Pager', function(){
       done();
     });
   });
-*/
+
   it('should select correct range', function (done) {
     var code = '}}}))))v';
     pager.eval(code).then(function (result) {
