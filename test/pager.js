@@ -14,12 +14,13 @@ describe('Pager', function(){
 
   before(function () {
     pager = new Pager();
+    pager.setTable('user');
   });
 
   afterEach(function () {
 
   });
-
+/*
   it('should give same outputs as Brainfuck for brainfuck codes', function (done) {
     var codes = [
       '++++++++[>++++++++<-]>+.+.+.',
@@ -39,7 +40,7 @@ describe('Pager', function(){
         if (err) { throw err; }
         bf.eval(code, function (err, data2) {
           if (err) { throw err; }
-          assert.equal(data1, data2);
+          assert.equal(data1.output, data2);
           d.resolve();
         });
       });
@@ -55,11 +56,11 @@ describe('Pager', function(){
   it('should return same outputs in callback and promise', function (done) {
     var code = '++++++++[>++++++++<-]>+.+.+.';
     var answer = 'ABC';
-    pager.eval(code, function (err, data1) {
-      pager.eval(code).then(function (data2) {
-        assert.equal(data1, data2);
-        done();
-      });
+    pager.eval(code, function (err, result1) {
+      if (err) { throw err; }
+      pager.eval(code).then(function (result2) {
+        assert.equal(result1.output, result2.output);
+      }).done(done);
     });
   });
 
@@ -71,6 +72,14 @@ describe('Pager', function(){
       pager.clear();
       assert.equal(pager.offset, 0);
       assert.equal(pager.limit, 0);
+      done();
+    });
+  });
+*/
+  it('should select correct range', function (done) {
+    var code = '}}}))))v';
+    pager.eval(code).then(function (result) {
+      assert.equal(result.rows[0].length, 4);
       done();
     });
   });
