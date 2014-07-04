@@ -1,6 +1,6 @@
 # Pagelang
 
-A clear & intuitive tools for pagenation.
+A clear & intuitive tool for pagenation.
 
 
 ## how to use
