@@ -1,10 +1,10 @@
 {
-  "name": "Pager",
-  "version": "0.0.0",
-  "description": "brainfuck like pager language",
+  "name": "pagelang",
+  "version": "0.1.0",
+  "description": "A Brainfxxx-like query language for MySQL",
   "main": "lib/pager.js",
   "bin": {
-    "pager": "bin/pager.js"
+    "pager": "bin/pagelang.js"
   },
   "directories": {
     "test": "test"

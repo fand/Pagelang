@@ -5,7 +5,7 @@ A Brainfuck-like Query Language for MySQL.
 
 ## How to use
 
-Pagerlang provides a CLI tool.
+Pagelang provides a CLI tool.
 
 To `SELECT * from table LIMIT 10, 5;`
 
