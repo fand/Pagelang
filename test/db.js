@@ -18,6 +18,8 @@ describe('DB', function(){
 
     // Insert 10 records
     db.connect()
+      .then(db.query.bind(db, 'CREATE DATABASE IF NOT EXISTS pager_test'))
+      .then(db.query.bind(db, 'CREATE TABLE IF NOT EXISTS pager_test.user( id int auto_increment, name text, age int, primary key(id) )'))
       .then(db.query.bind(db, 'TRUNCATE table user'))
       .then(db.query.bind(db, 'INSERT into user (name, age) VALUES (1, 1)'))
       .then(db.query.bind(db, 'INSERT into user (name, age) VALUES (2, 2)'))
