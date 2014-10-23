@@ -1,6 +1,6 @@
 {
   "name": "pagelang",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Brainfxxx-like query language for MySQL",
   "main": "lib/pager.js",
   "bin": {

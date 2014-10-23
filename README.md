@@ -5,18 +5,18 @@ A Brainfuck-like Query Language for MySQL.
 
 ## How to use
 
-Pagelang provides a CLI tool.
+Pagelang provides a CLI tool, `pager`.
 
 To `SELECT * from table LIMIT 10, 5;`
 
 ```
-$ pagelang -t table -e "}}}}}}}}}})))))v"
+$ pager -t table -e "}}}}}}}}}})))))v"
 ``` 
 
 To `UPDATE table t1 JOIN (SELECT * from table LIMIT 3, 4) t2 ON t1.id = t2.id set t1.value = 100;`
 
 ```
-$ pagelang -t table -e "}}}))))@value:100@"
+$ pager -t table -e "}}}))))@value:100@"
 ``` 
 
 
