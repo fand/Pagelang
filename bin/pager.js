@@ -3,6 +3,7 @@
 'use strict';
 var Pager = require('../lib/pager');
 var options = {};
+var oneliner;
 
 
 // Parse options.
@@ -11,9 +12,14 @@ command
   .usage('[options] <file ...>')
   .version('0.0.1')
   .option(
-    '-D, --database [db]', 'specify db',
+    '-D, --database [database]', 'specify db',
     function(val) {
-      options.db = val;
+      options.database = val;
+    })
+  .option(
+    '-t, --table [table]', 'specify table',
+    function(val) {
+      options.table = val;
     })
   .option(
     '-u, --user [username]', 'specify user',
@@ -28,9 +34,31 @@ command
   .option(
     '-e, --eval [code]', 'run as one-liner',
     function(val) {
-      options.code = val;
+      oneliner = val;
     })
   .parse(process.argv);
 
 
-var pager = new Pager();
+var pager = new Pager(options);
+if (oneliner) {
+  if (!options.table) {
+    console.error("Please specify table!");
+    process.exit(1);
+  }
+  pager.setTable(options.table);
+  pager
+    .eval(oneliner)
+    .then(function (res) {
+
+      // By default, cli pager prints rows in the result.
+      res.rows.forEach(function (rows) {
+        console.log(rows);
+      });
+
+      process.exit();
+    });
+}
+else {
+  // var fs = require('fs');
+  // fs.createReadableStream();
+}
